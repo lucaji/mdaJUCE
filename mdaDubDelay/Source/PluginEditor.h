@@ -31,17 +31,6 @@ private:
 
     juce::AudioProcessorValueTreeState& apvts;
     
-    /*
-     PARAMETER_ID(delay)
-     PARAMETER_ID(feedback)
-     PARAMETER_ID(feedbackMode)
-     PARAMETER_ID(feedbackTone)
-     PARAMETER_ID(lfoDepth)
-     PARAMETER_ID(lfoRate)
-     PARAMETER_ID(wetMix)
-     PARAMETER_ID(output)
-     */
-    
     juce::Label delayLabel;
     juce::Slider delaySlider;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> delayAttachment;
@@ -49,10 +38,6 @@ private:
     juce::Label feedbackLabel;
     juce::Slider feedbackSlider;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> feedbackAttachment;
-    
-    juce::Label feedbackModeLabel;
-    juce::Slider feedbackModeSlider;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> feedbackModeAttachment;
     
     juce::Label feedbackToneLabel;
     juce::Slider feedbackToneSlider;

@@ -10,22 +10,6 @@
 
 #include <JuceHeader.h>
 
-namespace ParameterID
-{
-    #define PARAMETER_ID(str) const juce::ParameterID str(#str, 1);
-
-    PARAMETER_ID(delay)
-    PARAMETER_ID(feedback)
-    PARAMETER_ID(feedbackMode)
-    PARAMETER_ID(feedbackTone)
-    PARAMETER_ID(lfoDepth)
-    PARAMETER_ID(lfoRate)
-    PARAMETER_ID(wetMix)
-    PARAMETER_ID(output)
-
-    #undef PARAMETER_ID
-}
-
 //==============================================================================
 /**
 */
@@ -33,7 +17,7 @@ class MdaDubDelayAudioProcessor  : public juce::AudioProcessor
                             #if JucePlugin_Enable_ARA
                              , public juce::AudioProcessorARAExtension
                             #endif
-                            ,private juce::ValueTree::Listener
+                            , private juce::ValueTree::Listener
 {
 public:
     //==============================================================================
@@ -79,8 +63,6 @@ public:
 
 
 private:
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MdaDubDelayAudioProcessor)
     
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     void valueTreePropertyChanged(juce::ValueTree&, const juce::Identifier&) override
@@ -93,7 +75,6 @@ private:
 
     
     juce::AudioParameterFloat* delayParam;
-    juce::AudioParameterChoice* feedbackModeParam;
     juce::AudioParameterFloat* feedbackParam;
     juce::AudioParameterFloat* feedbackToneParam;
     juce::AudioParameterFloat* lfoDepthParam;
@@ -101,14 +82,23 @@ private:
     juce::AudioParameterFloat* wetMixParam;
     juce::AudioParameterFloat* outputParam;
     
-    float * mybuffer;        // delay
-    long allocatedBufferSize, ipos;    // delay max time, pointer, left time, right time
-    float fil0;            // crossover filter buffer
-    float env;            // limiter (clipper when release is instant)
-    float phi;            // lfo
-    float dlbuf;        // smoothed modulated delay
+    juce::LinearSmoothedValue<float> outputLevelSmoother;
 
+    float *mybuffer = nullptr; // delay
+    long allocatedBufferSize = 0;
+    long ipos = 0; // delay max time, pointer, left time, right time
+    
+    float wet, dry, fbk; // wet & dry mix
+    float lmix, hmix; // low & high mix
+    float fil; // crossover filter coeff
+    float fil0; // crossover filter buffer
+    float env, rel; // limiter (clipper when release is instant)
+    float del, mod, phi, dphi; // lfo
+    float dlbuf; // smoothed modulated delay
 
-    void UpdateBuffer();
+    void update(float fs);
 
+    //==============================================================================
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MdaDubDelayAudioProcessor)
+    
 };

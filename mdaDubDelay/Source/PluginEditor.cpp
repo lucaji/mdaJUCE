@@ -14,7 +14,7 @@ enum
     paramControlHeight = 40,
     paramLabelWidth    = 120,
     paramSliderWidth   = 300,
-    uiRows = 9 // for calculating label spacing of parameters + comment/copyright label
+    uiRows = 8 // for calculating label spacing of parameters + comment/copyright label
 };
 
 //==============================================================================
@@ -31,11 +31,6 @@ MdaDubDelayAudioProcessorEditor::MdaDubDelayAudioProcessorEditor (MdaDubDelayAud
     addAndMakeVisible(feedbackSlider);
     feedbackAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment (apvts, "feedback", feedbackSlider));
     
-    feedbackModeLabel.setText("Feedback Mode", juce::dontSendNotification);
-    addAndMakeVisible(feedbackModeLabel);
-    addAndMakeVisible(feedbackModeSlider);
-    feedbackModeAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment (apvts, "feedbackMode", feedbackModeSlider));
-    
     feedbackToneLabel.setText("Feedback Tone", juce::dontSendNotification);
     addAndMakeVisible(feedbackToneLabel);
     addAndMakeVisible(feedbackToneSlider);
@@ -46,7 +41,7 @@ MdaDubDelayAudioProcessorEditor::MdaDubDelayAudioProcessorEditor (MdaDubDelayAud
     addAndMakeVisible(lfoDepthSlider);
     lfoDepthAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment (apvts, "lfoDepth", lfoDepthSlider));
     
-    lfoRateLabel.setText("LFO Depth", juce::dontSendNotification);
+    lfoRateLabel.setText("LFO Rate", juce::dontSendNotification);
     addAndMakeVisible(lfoRateLabel);
     addAndMakeVisible(lfoRateSlider);
     lfoRateAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment (apvts, "lfoRate", lfoRateSlider));
@@ -96,11 +91,6 @@ void MdaDubDelayAudioProcessorEditor::resized()
     sliderRect.translate(0, sliderHeight);
     feedbackLabel.setBounds(labelRect);
     feedbackSlider.setBounds(sliderRect);
-    
-    labelRect.translate(0, sliderHeight);
-    sliderRect.translate(0, sliderHeight);
-    feedbackModeLabel.setBounds(labelRect);
-    feedbackModeSlider.setBounds(sliderRect);
     
     labelRect.translate(0, sliderHeight);
     sliderRect.translate(0, sliderHeight);
